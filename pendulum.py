@@ -12,7 +12,7 @@
     a = 1/(m+M)
 """
 
-import * from random
+from random import *
 import math
 
 # Constants
