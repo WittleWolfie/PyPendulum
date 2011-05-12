@@ -4,6 +4,7 @@
 """
 
 from pendulum import *
+from agent import *
 
 # Time between updates
 dt = 0.1
