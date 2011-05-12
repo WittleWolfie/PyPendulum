@@ -8,6 +8,7 @@
     m = mass of the pendulum (kg)
     M = mass of the cart
     l = length of the pendulum (m)
+    u = force applied (N)
     a = 1/(m+M)
 """
 
@@ -30,5 +31,9 @@ class Pendulum:
     # Updates the state of the pendulum
     # IMPORTANT NOTE: This is an approximate update step, with error proportional to the size of dx and
     # the angular velocity and acceleration.
-    def update(self, dx):
-        accel = (g*math.sin(self.x) - a*m*l*self.v*self.v*math.sin(2*self.x)/2 - a*math.cos(self.x)
+    def update(self, dt, u):
+        accel = (g*math.sin(self.x) - a*m*l*self.v*self.v*math.sin(2*self.x)/2 - a*math.cos(self.x)*u)
+        accel = accel/(4*l/3 - a*m*l*math.pow(math.cos(x), 2))
+        
+        self.x += self.v*dt
+        self.v += accel*dt
