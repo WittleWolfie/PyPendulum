@@ -33,7 +33,16 @@ class Pendulum:
     # the angular velocity and acceleration.
     def update(self, dt, u):
         accel = (g*math.sin(self.x) - a*m*l*self.v*self.v*math.sin(2*self.x)/2 - a*math.cos(self.x)*u)
-        accel = accel/(4*l/3 - a*m*l*math.pow(math.cos(x), 2))
+        accel = accel/(4*l/3 - a*m*l*math.pow(math.cos(self.x), 2))
         
         self.x += self.v*dt
         self.v += accel*dt
+        
+        # Check if we have hit 90 degrees, if so we are stable
+        if self.x > math.pi/2:
+            self.x = math.pi/2
+            self.v = 0
+        elif self.x < -math.pi/2:
+            self.x = -math.pi/2
+            self.v = 0
+            
