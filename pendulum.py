@@ -22,7 +22,6 @@ M = 8.0
 l = 0.5
 a = 1.0/(m+M)
 epsilon = 0.000001
-import pdb
 
 class Pendulum:
     # Initially the pendulum is set to a slightly unstable state near (x,v) = (0, 0)
@@ -47,5 +46,3 @@ class Pendulum:
             accel = (g*math.sin(self.x) - a*m*l*self.v*self.v*math.sin(2*self.x)/2 - a*math.cos(self.x)*u)
             accel = accel/(4*l/3 - a*m*l*math.pow(math.cos(self.x), 2))
             self.v += accel*dt
-            
-pdb.set_trace()
