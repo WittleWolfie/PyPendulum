@@ -11,6 +11,6 @@ dt = 0.1
 
 pen = Pendulum()
 agent = Agent()
-while(!pen.isHorizontal()):
+while(pen.isHorizontal() == False):
     action = agent.getAction(pen.x, pen.v)
     agent.notify(calculateReward())
