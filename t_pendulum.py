@@ -1,4 +1,5 @@
 from pendulum import *
+from constants import *
 import unittest
 
 class PendulumTest(unittest.TestCase):
@@ -42,12 +43,12 @@ class PendulumTest(unittest.TestCase):
 		p = Pendulum()
 		p.x = 0
 		p.v = math.pi/2
-		p.update(0.1, 50)
+		p.update(0.1, RF)
 		self.assertTrue(p.x - 0.15708 <= 0.00001)
 		for i in range(0, 100):
 			p.x = 0
 			p.v = math.pi/2
-			p.update(0.1, 50)
+			p.update(0.1, RF)
 			self.assertTrue(0.51197 <= p.v and p.v <= 0.86492)
 			
 	def testUpdateLF(self):
@@ -56,13 +57,15 @@ class PendulumTest(unittest.TestCase):
 		p = Pendulum()
 		p.x = 0
 		p.v = -math.pi/2
-		p.update(0.1, -50)
+		p.update(0.1, LF)
 		self.assertTrue(p.x + 0.15708 <= 0.00001)
 		for i in range(0, 100):
 			p.x = 0
 			p.v = -math.pi/2
-			p.update(0.1, -50)
+			p.update(0.1, LF)
 			self.assertTrue(-0.86549 <= p.v and p.v <= -0.05120)
+			
+	def testUpdateNF(self):
 			
 	def testUpdateWhenHorizontal(self):
 		"""The update() method should set the velocity to 0 when the pendulum is horizontal."""

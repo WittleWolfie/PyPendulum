@@ -13,17 +13,9 @@
 """
 
 from random import *
+from constants import *
 import math
 import pdb
-
-# Constants
-g = 9.8
-m = 2.0
-M = 8.0
-l = 0.5
-a = 1.0/(m+M)
-noise = 10;
-epsilon = 0.000001
 
 class Pendulum:
 	# Initially the pendulum is set to a slightly unstable state near (x,v) = (0, 0)
