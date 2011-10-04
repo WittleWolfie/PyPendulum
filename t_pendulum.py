@@ -44,7 +44,7 @@ class PendulumTest(unittest.TestCase):
 		p.x = 0
 		p.v = math.pi/2
 		p.update(0.1, RF)
-		self.assertTrue(p.x - 0.15708 <= 0.00001)
+		self.assertTrue(p.x - 0.15708 <= epsilon)
 		for i in range(0, 100):
 			p.x = 0
 			p.v = math.pi/2
@@ -58,7 +58,7 @@ class PendulumTest(unittest.TestCase):
 		p.x = 0
 		p.v = -math.pi/2
 		p.update(0.1, LF)
-		self.assertTrue(p.x + 0.15708 <= 0.00001)
+		self.assertTrue(p.x + 0.15708 <= epsilon)
 		for i in range(0, 100):
 			p.x = 0
 			p.v = -math.pi/2
@@ -71,11 +71,11 @@ class PendulumTest(unittest.TestCase):
 		"""The update() method should set the velocity to 0 when the pendulum is horizontal."""
 		p = Pendulum()
 		p.x = math.pi/2
-		p.update(0.1, 50)
+		p.update(0.1, RF)
 		self.assertEqual(p.v, 0)
 		p.v = 1
 		p.x = -math.pi/2
-		p.update(0.1, -50)
+		p.update(0.1, LF)
 
 if __name__ == '__main__':
     unittest.main()
