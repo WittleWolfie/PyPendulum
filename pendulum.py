@@ -41,7 +41,6 @@ class Pendulum:
 	# IMPORTANT NOTE: This is an approximate update step, with error proportional to the size of dx and
 	# the angular velocity and acceleration.
 	def update(self, dt, u):
-		print "Pendulum State: %f, %f" % (self.x, self.v)
 		# Check if we have hit 90 degrees, if so we are stable
 		if self.isHorizontal():
 			self.v = 0
