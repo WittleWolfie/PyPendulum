@@ -36,7 +36,7 @@ class PendulumTest(unittest.TestCase):
 		for i in range(0, 100):
 			p.x = uniform(-math.pi/2 - 2*epsilon, math.pi/2 + 2*epsilon)
 			self.assertFalse(p.isHorizontal())
-			
+
 	def testUpdateRF(self):
 		"""The update method should match the numbers calculated in wolfram alpha,
 		   using a force estimation of u +/- 10."""
@@ -50,7 +50,7 @@ class PendulumTest(unittest.TestCase):
 			p.v = math.pi/2
 			p.update(0.1, RF)
 			self.assertTrue(0.51197 <= p.v and p.v <= 0.86492)
-			
+
 	def testUpdateLF(self):
 		"""The update method should match the numbers calculated in wolfram alpha,
 		   using a force estimation of u +/- 10."""
@@ -64,9 +64,21 @@ class PendulumTest(unittest.TestCase):
 			p.v = -math.pi/2
 			p.update(0.1, LF)
 			self.assertTrue(-0.86549 <= p.v and p.v <= -0.05120)
-			
+
 	def testUpdateNF(self):
-			
+		"""The update method should match the numbers calculated in wolfram alpha,
+		   using a force estimation of u +/- 10."""
+		p = Pendulum()
+		p.x = 0
+		p.v = 0
+		p.update(0.1, NF)
+		self.assertTrue(p.x == 0)
+		for i in range(0, 100):
+			p.x = 0
+			p.v = math.pi/2
+			p.update(0.1, NF)
+			self.assertTrue(1.39432 <= p.v and p.v <= 1.74727)
+
 	def testUpdateWhenHorizontal(self):
 		"""The update() method should set the velocity to 0 when the pendulum is horizontal."""
 		p = Pendulum()
