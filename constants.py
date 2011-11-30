@@ -1,7 +1,7 @@
 # Force enums
 NF = 0
-LF = -50
-RF = 50
+LF = 1
+RF = 2
 
 # Nonlinear equation constants
 g = 9.8
