@@ -2,6 +2,9 @@
 NF = 0
 LF = 1
 RF = 2
+NF_FORCE = 0
+LF_FORCE = -50
+RF_FORCE = 50
 
 # Nonlinear equation constants
 g = 9.8

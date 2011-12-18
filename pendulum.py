@@ -33,12 +33,13 @@ class Pendulum:
 	# IMPORTANT NOTE: This is an approximate update step, with error proportional to the size of dx and
 	# the angular velocity and acceleration.
 	def update(self, dt, u):
+		# figure out what force to use
 		if u == NF:
 			u = 0
 		elif u == LF:
-			u = -50
+			u = LF_FORCE
 		elif u == RF:
-			u = -50
+			u = RF_FORCE
 		
 		# Check if we have hit 90 degrees, if so we are stable
 		if self.isHorizontal():
