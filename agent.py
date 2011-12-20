@@ -71,7 +71,7 @@ class LSPIAgent(Agent):
 	def lstdq(self, sample):
 		B = eye(basis_size*num_actions)
 		b = zeros(basis_size*num_actions)
-		for s in sample:
+		for s in sample: # s = (s, a, r, s')
 			# First get the basis functions
 			phi = basis_function(s[0], s[1])
 			next_action = self.getAction(s[3][0], s[3][1])
@@ -79,8 +79,8 @@ class LSPIAgent(Agent):
 
 			# break the calculation into smaller parts
 			temp = phi - self.discount*phi_prime
-			num = dot(dot(B, phi), dot(temp, B))
-			denom = 1 + dot(dot(temp,B), phi)
+			num = dot(dot(B, phi.T), dot(temp, B))
+			denom = 1 + dot(dot(temp,B), phi.T)
 			B = B - num/denom
 
 			# Update values
@@ -103,7 +103,7 @@ class LSPIAgent(Agent):
 	# State should be the tuple (x, v) and action should be RF, NF, or LF
 	def basis_function(state, action):
 		sigma2 = 1
-		phi = zeros(basis_size*num_actions)
+		phi = zeros((1, basis_size*num_actions))
 		
 		# If we're horizontal then the basis function is all 0s.
 		if state[0] - math.pi/2 >= -epsilon or state[0] + math.pi/2 <= epsilon:

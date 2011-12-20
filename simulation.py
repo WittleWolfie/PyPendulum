@@ -23,10 +23,24 @@ for i in range(0, num_trials):
 	# Random agent, huzzah!
 	pen = Pendulum()
 	agent = Agent()
+	samples = list()
 	while(pen.isHorizontal() == False):
+		# Track samples for the random agent
+		sample = list()
+		sample.append((pen.x, pen.v))
+
+		# Get action and update
 		action = agent.getAction(pen.x, pen.v)
 		pen.update(0.1, action)
-		agent.notify(calculateReward())
+		reward = calculateReward()
+		agent.notify(reward)
+
+		# Update the sample
+		sample.append(action)
+		sample.append(reward)
+		sample.append((pen.x, pen.v))
+		samples.append(sample)
+
 		random_agent_life += 1
 		
 	# Clever agent, hoorah!
@@ -42,6 +56,7 @@ for i in range(0, num_trials):
 	pen = Pendulum()
 	agent = NoopAgent()
 	while(pen.isHorizontal() == False):
+		sample =
 		action = agent.getAction(pen.x, pen.v)
 		pen.update(0.1, action)
 		agent.notify(calculateReward())
