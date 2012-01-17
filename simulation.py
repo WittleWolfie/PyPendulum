@@ -12,7 +12,7 @@ def calculateReward():
 # Time between updates
 dt = 0.1
 
-num_trials = 10000
+num_trials = 1000000
 
 # Track time alive
 random_agent_life = 0
@@ -74,3 +74,4 @@ print "\nSummary:\n"
 print "Random Agent: %f" % ((random_agent_life*0.1)/num_trials)
 print "Clever Agent: %f" % ((clever_agent_life*0.1)/num_trials)
 print "No-Op Agent: %f" % ((noop_agent_life*0.1)/num_trials)
+print "LSPI Agent: %f" % ((lspi_agent_life*0.1)/num_trials)

@@ -59,7 +59,7 @@ class LSPIAgent(Agent):
 		action = max = -9999
 		for a in (RF, NF, LF):
 			params = basis_function((x,v), a)
-			q = dot(params, self.w)
+			q = dot(params.T, self.w)
 			if q > max:
 				action = a
 				max = q
@@ -69,7 +69,7 @@ class LSPIAgent(Agent):
 	# Performs LSTDQ-OPT on the sample. See the paper for more info.
 	def lstdq(self, sample):
 		B = eye(basis_size*num_actions)
-		b = zeros(basis_size*num_actions)
+		b = zeros((basis_size*num_actions, 1))
 		for s in sample: # s = (s, a, r, s')
 			# First get the basis functions
 			phi = basis_function(s[0], s[1])
@@ -78,8 +78,8 @@ class LSPIAgent(Agent):
 
 			# break the calculation into smaller parts
 			temp = phi - self.discount*phi_prime
-			num = dot(dot(B, phi.T), dot(temp, B))
-			denom = 1 + dot(dot(temp,B), phi.T)
+			num = dot(dot(B, phi), dot(temp.T, B))
+			denom = 1 + dot(dot(temp.T,B), phi)
 			B = B - num/denom
 
 			# Update values
@@ -97,12 +97,12 @@ def diff(a, b):
 	mag_a = math.sqrt(mag_a)
 	mag_b = math.sqrt(mag_b)
 
-	return math.abs(a - b)
+	return math.fabs(mag_a - mag_b)
 
 # State should be the tuple (x, v) and action should be RF, NF, or LF
 def basis_function(state, action):
 	sigma2 = 1
-	phi = zeros((1, basis_size*num_actions))
+	phi = zeros((basis_size*num_actions, 1))
 	
 	# If we're horizontal then the basis function is all 0s.
 	if state[0] - math.pi/2 >= -epsilon or state[0] + math.pi/2 <= epsilon:
@@ -111,12 +111,12 @@ def basis_function(state, action):
 	# Now populate the basis function for this state action pair
 	# Note that each entry except for the first is a gaussian.
 	i = basis_size * (action - 1)
-	phi[0,i] = 1.0
+	phi[i,0] = 1.0
 	i += 1
 	for x in (-math.pi/4.0, 0.0, math.pi/4.0):
 		for y in (-1, 0, 1):
 			dist = (state[0] - x)*(state[0] - x) + (state[1] - y)*(state[1] - y)
-			phi[0,i] = math.exp(-dist/(2*sigma2))
+			phi[i,0] = math.exp(-dist/(2*sigma2))
 			i += 1
 	
 	return phi
