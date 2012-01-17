@@ -36,10 +36,9 @@ class NoopAgent(Agent):
 	def getAction(self, x, v):
 		return NF
 
+num_actions = 3
+basis_size = 10
 class LSPIAgent(Agent):
-	num_actions = 3
-	basis_size = 10
-
 	# A sample of data collected from the target environment
 	# must be passed to the constructor.
 	# Each sample should be a tuple (s,a,r,s')
@@ -88,36 +87,36 @@ class LSPIAgent(Agent):
 
 		return dot(B,b)
 
-	# Computes the difference between the magnitude of two vectors.
-	def diff(a, b):
-		mag_a = mag_b = 0
-		for x in a:
-			mag_a += x*x
-		for x in b:
-			mag_b += x*x
-		mag_a = math.sqrt(mag_a)
-		mag_b = math.sqrt(mag_b)
+# Computes the difference between the magnitude of two vectors.
+def diff(a, b):
+	mag_a = mag_b = 0
+	for x in a:
+		mag_a += x*x
+	for x in b:
+		mag_b += x*x
+	mag_a = math.sqrt(mag_a)
+	mag_b = math.sqrt(mag_b)
 
-		return math.abs(a - b)
+	return math.abs(a - b)
 
-	# State should be the tuple (x, v) and action should be RF, NF, or LF
-	def basis_function(state, action):
-		sigma2 = 1
-		phi = zeros((1, basis_size*num_actions))
-		
-		# If we're horizontal then the basis function is all 0s.
-		if state[0] - math.pi/2 >= -epsilon or state[0] + math.pi/2 <= epsilon:
-			return phi
-		
-		# Now populate the basis function for this state action pair
-		# Note that each entry except for the first is a gaussian.
-		i = basis_size * (action - 1)
-		phi[i] = 1.0
-		i += 1
-		for x in (-math.pi/4.0, 0.0, math.pi/4.0):
-			for y in (-1, 0, 1):
-				dist = (state[0] - x)(state[0] - x) + (state[1] - y)(state[1] - y)
-				phi[i] = math.exp(-dist/(2*sigma2))
-				i += 1
-		
+# State should be the tuple (x, v) and action should be RF, NF, or LF
+def basis_function(state, action):
+	sigma2 = 1
+	phi = zeros((1, basis_size*num_actions))
+	
+	# If we're horizontal then the basis function is all 0s.
+	if state[0] - math.pi/2 >= -epsilon or state[0] + math.pi/2 <= epsilon:
 		return phi
+	
+	# Now populate the basis function for this state action pair
+	# Note that each entry except for the first is a gaussian.
+	i = basis_size * (action - 1)
+	phi[0,i] = 1.0
+	i += 1
+	for x in (-math.pi/4.0, 0.0, math.pi/4.0):
+		for y in (-1, 0, 1):
+			dist = (state[0] - x)*(state[0] - x) + (state[1] - y)*(state[1] - y)
+			phi[0,i] = math.exp(-dist/(2*sigma2))
+			i += 1
+	
+	return phi

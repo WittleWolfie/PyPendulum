@@ -18,6 +18,7 @@ num_trials = 10000
 random_agent_life = 0
 clever_agent_life = 0
 noop_agent_life = 0
+lspi_agent_life = 0
 
 for i in range(0, num_trials):
 	# Random agent, huzzah!
@@ -34,6 +35,7 @@ for i in range(0, num_trials):
 		pen.update(0.1, action)
 		reward = calculateReward()
 		agent.notify(reward)
+		random_agent_life += 1
 
 		# Update the sample
 		sample.append(action)
@@ -41,8 +43,6 @@ for i in range(0, num_trials):
 		sample.append((pen.x, pen.v))
 		samples.append(sample)
 
-		random_agent_life += 1
-		
 	# Clever agent, hoorah!
 	pen = Pendulum()
 	agent = CleverAgent()
@@ -51,17 +51,25 @@ for i in range(0, num_trials):
 		pen.update(0.1, action)
 		agent.notify(calculateReward())
 		clever_agent_life += 1
-		
+
 	# Noop agent, hooplah!
 	pen = Pendulum()
 	agent = NoopAgent()
 	while(pen.isHorizontal() == False):
-		sample =
 		action = agent.getAction(pen.x, pen.v)
 		pen.update(0.1, action)
 		agent.notify(calculateReward())
 		noop_agent_life += 1
-	
+
+	# LSPI Agent time...
+	pen = Pendulum()
+	agent = LSPIAgent(samples)
+	while(pen.isHorizontal() == False):
+		action = agent.getAction(pen.x, pen.v)
+		pen.update(0.1, action)
+		agent.notify(calculateReward())
+		lspi_agent_life += 1
+
 print "\nSummary:\n"
 print "Random Agent: %f" % ((random_agent_life*0.1)/num_trials)
 print "Clever Agent: %f" % ((clever_agent_life*0.1)/num_trials)
